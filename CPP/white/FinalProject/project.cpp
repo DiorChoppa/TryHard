@@ -56,7 +56,7 @@ bool operator < (const Date& lhs, const Date& rhs){
 
 class DataBase {
 	public:
-		void AddEffect(const Date& date, std::string event){
+		void AddEvent(const Date& date, std::string event){
 			if(db.count(date) > 1){
 				db[date].insert(event);
 			} else {
@@ -152,7 +152,60 @@ int main(){
 		stream >> operation;
 
 		try {
-			
+			if (operation == "Add") {
+                stream.ignore(1);
+                Date date;
+                try {
+                    stream >> date;
+                } catch (std::exception& ex) {
+                    std::cout << ex.what() << std::endl;
+                    break;
+                }
+                stream.ignore(1);
+                std::string event;
+                stream >> event;
+                db.AddEvent(date, event);
+            } else if (operation == "Del") {
+                stream.ignore(1);
+                Date date;
+                try {
+                    stream >> date;
+                } catch (std::exception& ex) {
+                    std::cout << ex.what() << std::endl;
+                    break;
+                }
+                if (stream.peek() != -1) {
+                    stream.ignore(1);
+                    std::string event;
+                    stream >> event;
+                    if (db.DeleteEvent(date, event)) {
+                        std::cout << "Deleted successfully" << std::endl;
+                    } else {
+                        std::cout << "Event not found" << std::endl;
+                    }
+                } else {
+                    int n = 0;
+                    n = db.DeleteDate(date);
+                    std::cout << "Deleted " << n << " events" << std::endl;
+                }
+            } else if (operation == "Find") {
+                stream.ignore(1);
+                Date date;
+                try {
+                    stream >> date;
+                } catch (std::exception& ex) {
+                    std::cout << ex.what() << std::endl;
+                    break;
+                }
+                db.Find(date);
+            } else if (operation == "Print") {
+                db.Print();
+                break;
+            } else if (operation == "") {
+
+            } else {
+                throw std::runtime_error("Unknown command: " + operation);
+			}
 		} catch (std::exception& ex){
 			std::cout << ex.what() << std::endl;
 			break;
