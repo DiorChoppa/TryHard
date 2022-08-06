@@ -14,12 +14,12 @@ std::vector<T> qsort(std::vector<T>& v){
 		else greater.push_back(*item);
 	}
 	std::vector<T> less_sorted = qsort(less);
-		std::vector<T> greater_sorted = qsort(greater);
+	std::vector<T> greater_sorted = qsort(greater);
 
-		less_sorted.push_back(*pivot);
-		less_sorted.insert(less_sorted.end(), greater_sorted.begin(), greater_sorted.end());
+	less_sorted.push_back(*pivot);
+	less_sorted.insert(less_sorted.end(), greater_sorted.begin(), greater_sorted.end());
 
-		return less_sorted;
+	return less_sorted;
 }
 
 int main() {
